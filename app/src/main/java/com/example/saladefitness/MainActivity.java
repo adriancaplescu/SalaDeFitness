@@ -1,8 +1,11 @@
 package com.example.saladefitness;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,8 +62,9 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(v -> showAddDialog());
 
+        // Butonul Istoric -> ecranul de istoric
         findViewById(R.id.buttonHistory).setOnClickListener(v ->
-                startActivity(new android.content.Intent(this, HistoryActivity.class)));
+                startActivity(new Intent(this, HistoryActivity.class)));
 
         loadTodayEntries();
     }
@@ -77,10 +81,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void showAddDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_exercise, null);
-        EditText editName = dialogView.findViewById(R.id.editName);
+
+        AutoCompleteTextView editName = dialogView.findViewById(R.id.editName);
         EditText editSets = dialogView.findViewById(R.id.editSets);
         EditText editReps = dialogView.findViewById(R.id.editReps);
         EditText editWeight = dialogView.findViewById(R.id.editWeight);
+
+        // Legam catalogul de exercitii la campul de nume
+        String[] catalog = getResources().getStringArray(R.array.exercise_catalog);
+        editName.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, catalog));
 
         new AlertDialog.Builder(this)
                 .setTitle("Adauga exercitiu")

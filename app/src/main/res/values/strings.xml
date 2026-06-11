@@ -1,3 +1,28 @@
 <resources>
-    <string name="app_name">Sala De Fitness</string>
+    <string name="app_name">Ora De Fitness</string>
+    <string-array name="exercise_catalog">
+        <item>Impins la piept cu bara</item>
+        <item>Impins la piept cu gantere</item>
+        <item>Impins inclinat</item>
+        <item>Fluturari cu gantere</item>
+        <item>Genuflexiuni cu bara</item>
+        <item>Presa de picioare</item>
+        <item>Extensii cvadriceps</item>
+        <item>Flexii femural</item>
+        <item>Indreptari</item>
+        <item>Ramat cu bara</item>
+        <item>Ramat cu gantera</item>
+        <item>Tractiuni</item>
+        <item>Helcometru piept</item>
+        <item>Presa umeri</item>
+        <item>Ridicari laterale</item>
+        <item>Biceps cu bara</item>
+        <item>Biceps cu gantere</item>
+        <item>Triceps la scripete</item>
+        <item>Extensii triceps</item>
+        <item>Abdomene</item>
+        <item>Plansa</item>
+        <item>Banda de alergare</item>
+        <item>Bicicleta</item>
+    </string-array>
 </resources>
