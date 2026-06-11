@@ -36,11 +36,26 @@ public class MainActivity extends AppCompatActivity {
 
         textEmpty = findViewById(R.id.textEmpty);
 
+        // Lista de exercitii
         RecyclerView recycler = findViewById(R.id.recyclerExercises);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ExerciseAdapter();
         recycler.setAdapter(adapter);
 
+        // Apasare lunga pe un exercitiu -> dialog de stergere
+        adapter.setOnEntryLongClickListener(entry -> {
+            new AlertDialog.Builder(this)
+                    .setTitle("Stergere")
+                    .setMessage("Stergi \"" + entry.exerciseName + "\"?")
+                    .setPositiveButton("Da", (dialog, which) -> {
+                        db.exerciseDao().delete(entry);
+                        loadTodayEntries();
+                    })
+                    .setNegativeButton("Nu", null)
+                    .show();
+        });
+
+        // Butonul + -> dialog de adaugare
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(v -> showAddDialog());
 

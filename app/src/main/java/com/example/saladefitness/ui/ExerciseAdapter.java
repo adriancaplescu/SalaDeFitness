@@ -16,6 +16,18 @@ import java.util.List;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
 
+    // ===== Callback pentru apasare lunga (in clasa PRINCIPALA) =====
+    public interface OnEntryLongClickListener {
+        void onEntryLongClick(ExerciseEntry entry);
+    }
+
+    private OnEntryLongClickListener longClickListener;
+
+    public void setOnEntryLongClickListener(OnEntryLongClickListener listener) {
+        this.longClickListener = listener;
+    }
+    // ================================================================
+
     private List<ExerciseEntry> entries = new ArrayList<>();
 
     public void setEntries(List<ExerciseEntry> newEntries) {
@@ -37,6 +49,13 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.textName.setText(entry.exerciseName);
         holder.textDetails.setText(entry.sets + " serii x " + entry.reps
                 + " repetari @ " + entry.weight + " kg");
+
+        holder.itemView.setOnLongClickListener(v -> {
+            if (longClickListener != null) {
+                longClickListener.onEntryLongClick(entry);
+            }
+            return true;
+        });
     }
 
     @Override
