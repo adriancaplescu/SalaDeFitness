@@ -59,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(v -> showAddDialog());
 
+        findViewById(R.id.buttonHistory).setOnClickListener(v ->
+                startActivity(new android.content.Intent(this, HistoryActivity.class)));
+
         loadTodayEntries();
     }
 

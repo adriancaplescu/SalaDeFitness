@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
 
-    // ===== Callback pentru apasare lunga (in clasa PRINCIPALA) =====
+    // ===== Callback pentru apasare lunga =====
     public interface OnEntryLongClickListener {
         void onEntryLongClick(ExerciseEntry entry);
     }
@@ -26,15 +26,22 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
     public void setOnEntryLongClickListener(OnEntryLongClickListener listener) {
         this.longClickListener = listener;
     }
-    // ================================================================
 
+    // ===== Datele listei =====
     private List<ExerciseEntry> entries = new ArrayList<>();
+
+    private boolean showDate = false;
+
+    public void setShowDate(boolean showDate) {
+        this.showDate = showDate;
+    }
 
     public void setEntries(List<ExerciseEntry> newEntries) {
         this.entries = newEntries;
         notifyDataSetChanged();
     }
 
+    // ===== Metodele RecyclerView =====
     @NonNull
     @Override
     public ExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,6 +57,11 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         holder.textDetails.setText(entry.sets + " serii x " + entry.reps
                 + " repetari @ " + entry.weight + " kg");
 
+        if (showDate) {
+            holder.textDate.setVisibility(View.VISIBLE);
+            holder.textDate.setText(entry.date);
+        }
+
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
                 longClickListener.onEntryLongClick(entry);
@@ -63,14 +75,17 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
         return entries.size();
     }
 
+    // ===== ViewHolder: tine referintele catre elementele unui rand =====
     static class ExerciseViewHolder extends RecyclerView.ViewHolder {
         TextView textName;
         TextView textDetails;
+        TextView textDate;
 
         ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);
             textName = itemView.findViewById(R.id.textExerciseName);
             textDetails = itemView.findViewById(R.id.textDetails);
+            textDate = itemView.findViewById(R.id.textDate);
         }
     }
 }
