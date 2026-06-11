@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/editName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nume exercitiu"
+        android:inputType="textCapSentences" />
+
+    <EditText
+        android:id="@+id/editSets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Numar serii"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editReps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Repetari per serie"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editWeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Greutate (kg)"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>
