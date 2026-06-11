@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         });
 
+        // Tap scurt pe un exercitiu -> dialog de editare
+        adapter.setOnEntryClickListener(this::showEditDialog);
+
         // Butonul + -> dialog de adaugare
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(v -> showAddDialog());
@@ -67,6 +70,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, HistoryActivity.class)));
 
         loadTodayEntries();
+
+        if (getIntent().getBooleanExtra("openAddDialog", false)) {
+            showAddDialog();
+        }
+
     }
 
     private String getTodayDate() {
@@ -116,6 +124,52 @@ public class MainActivity extends AppCompatActivity {
                     loadTodayEntries();
                 })
                 .setNegativeButton("Anuleaza", null)
-                .show();
+                .create();
+    }
+
+    private void showEditDialog(ExerciseEntry entry) {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_add_exercise, null);
+
+        AutoCompleteTextView editName = dialogView.findViewById(R.id.editName);
+        EditText editSets = dialogView.findViewById(R.id.editSets);
+        EditText editReps = dialogView.findViewById(R.id.editReps);
+        EditText editWeight = dialogView.findViewById(R.id.editWeight);
+
+        String[] catalog = getResources().getStringArray(R.array.exercise_catalog);
+        editName.setAdapter(new ArrayAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, catalog));
+
+        // Precompletam campurile cu valorile exercitiului existent
+        editName.setText(entry.exerciseName);
+        editSets.setText(String.valueOf(entry.sets));
+        editReps.setText(String.valueOf(entry.reps));
+        editWeight.setText(String.valueOf(entry.weight));
+
+        new AlertDialog.Builder(this)
+                .setTitle("Editeaza exercitiu")
+                .setView(dialogView)
+                .setPositiveButton("Salveaza", (dialog, which) -> {
+                    String name = editName.getText().toString().trim();
+                    String setsStr = editSets.getText().toString().trim();
+                    String repsStr = editReps.getText().toString().trim();
+                    String weightStr = editWeight.getText().toString().trim();
+
+                    if (name.isEmpty() || setsStr.isEmpty() || repsStr.isEmpty()) {
+                        Toast.makeText(this, "Completeaza numele, seriile si repetarile",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Modificam obiectul existent si il actualizam in baza de date
+                    entry.exerciseName = name;
+                    entry.sets = Integer.parseInt(setsStr);
+                    entry.reps = Integer.parseInt(repsStr);
+                    entry.weight = weightStr.isEmpty() ? 0 : Double.parseDouble(weightStr);
+
+                    db.exerciseDao().update(entry);
+                    loadTodayEntries();
+                })
+                .setNegativeButton("Anuleaza", null)
+                .create();
     }
 }

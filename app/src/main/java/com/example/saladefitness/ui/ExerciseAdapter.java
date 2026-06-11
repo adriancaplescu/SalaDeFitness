@@ -16,7 +16,7 @@ import java.util.List;
 
 public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.ExerciseViewHolder> {
 
-    // ===== Callback pentru apasare lunga =====
+    // ===== Callback pentru apasare lunga (stergere) =====
     public interface OnEntryLongClickListener {
         void onEntryLongClick(ExerciseEntry entry);
     }
@@ -25,6 +25,17 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
 
     public void setOnEntryLongClickListener(OnEntryLongClickListener listener) {
         this.longClickListener = listener;
+    }
+
+    // ===== Callback pentru tap scurt (editare) =====
+    public interface OnEntryClickListener {
+        void onEntryClick(ExerciseEntry entry);
+    }
+
+    private OnEntryClickListener clickListener;
+
+    public void setOnEntryClickListener(OnEntryClickListener listener) {
+        this.clickListener = listener;
     }
 
     // ===== Datele listei =====
@@ -62,6 +73,14 @@ public class ExerciseAdapter extends RecyclerView.Adapter<ExerciseAdapter.Exerci
             holder.textDate.setText(entry.date);
         }
 
+        // Tap scurt -> editare
+        holder.itemView.setOnClickListener(v -> {
+            if (clickListener != null) {
+                clickListener.onEntryClick(entry);
+            }
+        });
+
+        // Apasare lunga -> stergere
         holder.itemView.setOnLongClickListener(v -> {
             if (longClickListener != null) {
                 longClickListener.onEntryLongClick(entry);
