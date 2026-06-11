@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/editWeightBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Greutate corporala (kg)"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editWaist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Talie (cm) - optional"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editChest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Piept (cm) - optional"
+        android:inputType="numberDecimal" />
+
+    <EditText
+        android:id="@+id/editArm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Brat (cm) - optional"
+        android:inputType="numberDecimal" />
+
+</LinearLayout>

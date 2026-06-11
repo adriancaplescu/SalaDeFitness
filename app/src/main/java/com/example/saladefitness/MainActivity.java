@@ -47,15 +47,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Apasare lunga pe un exercitiu -> dialog de stergere
         adapter.setOnEntryLongClickListener(entry -> {
-            new AlertDialog.Builder(this)
+            AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle("Stergere")
                     .setMessage("Stergi \"" + entry.exerciseName + "\"?")
-                    .setPositiveButton("Da", (dialog, which) -> {
+                    .setPositiveButton("Da", (d, which) -> {
                         db.exerciseDao().delete(entry);
                         loadTodayEntries();
                     })
                     .setNegativeButton("Nu", null)
-                    .show();
+                    .create();
+            dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_dialog_rounded);
+            dialog.show();
         });
 
         // Tap scurt pe un exercitiu -> dialog de editare
@@ -65,16 +67,12 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton fab = findViewById(R.id.fabAdd);
         fab.setOnClickListener(v -> showAddDialog());
 
-        // Butonul Istoric -> ecranul de istoric
-        findViewById(R.id.buttonHistory).setOnClickListener(v ->
-                startActivity(new Intent(this, HistoryActivity.class)));
-
         loadTodayEntries();
 
+        // Daca am venit de pe Home cu butonul +, deschidem direct dialogul
         if (getIntent().getBooleanExtra("openAddDialog", false)) {
             showAddDialog();
         }
-
     }
 
     private String getTodayDate() {
@@ -100,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
         editName.setAdapter(new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, catalog));
 
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Adauga exercitiu")
                 .setView(dialogView)
-                .setPositiveButton("Salveaza", (dialog, which) -> {
+                .setPositiveButton("Salveaza", (d, which) -> {
                     String name = editName.getText().toString().trim();
                     String setsStr = editSets.getText().toString().trim();
                     String repsStr = editReps.getText().toString().trim();
@@ -125,6 +123,9 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Anuleaza", null)
                 .create();
+
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_dialog_rounded);
+        dialog.show();
     }
 
     private void showEditDialog(ExerciseEntry entry) {
@@ -145,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
         editReps.setText(String.valueOf(entry.reps));
         editWeight.setText(String.valueOf(entry.weight));
 
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle("Editeaza exercitiu")
                 .setView(dialogView)
-                .setPositiveButton("Salveaza", (dialog, which) -> {
+                .setPositiveButton("Salveaza", (d, which) -> {
                     String name = editName.getText().toString().trim();
                     String setsStr = editSets.getText().toString().trim();
                     String repsStr = editReps.getText().toString().trim();
@@ -171,5 +172,8 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setNegativeButton("Anuleaza", null)
                 .create();
+
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.bg_dialog_rounded);
+        dialog.show();
     }
 }
